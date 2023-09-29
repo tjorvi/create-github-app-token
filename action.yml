@@ -11,6 +11,9 @@ inputs:
   private_key:
     description: "GitHub App private key"
     required: true
+  repository:
+    description: "owner/repository to authenticate against"
+    required: false
 outputs:
   token:
     description: "GitHub installation access token"
