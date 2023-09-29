@@ -31,6 +31,28 @@ jobs:
           body: "Hello, World!"
 ```
 
+### Authenticate against a different repository
+
+```yaml
+on: [issues]
+
+jobs:
+  hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app_id: ${{ vars.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+          repository: ${{ vars.TARGET_REPOSITORY }}
+      - uses: peter-evans/create-or-update-comment@v3
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          issue-number: ${{ github.event.issue.number }}
+          body: "Hello, World!"
+```
+
 ### Use app token with `actions/checkout`
 
 ```yaml
