@@ -6,14 +6,12 @@ import { createAppAuth } from "@octokit/auth-app";
 import { main } from "./lib/main.js";
 import request from "./lib/request.js";
 
-if (!process.env.GITHUB_REPOSITORY) {
-  throw new Error("GITHUB_REPOSITORY missing, must be set to '<owner>/<repo>'");
-}
-
 const appId = core.getInput("app_id");
 const privateKey = core.getInput("private_key");
-
-const repository = process.env.GITHUB_REPOSITORY;
+const repository = core.getInput("app_id") || process.env.GITHUB_REPOSITORY;
+if (!repository) {
+  throw new Error("GITHUB_REPOSITORY missing, must be set to '<owner>/<repo>', or pass in the repository setting");
+}
 
 main(
   appId,
